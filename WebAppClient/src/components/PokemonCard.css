@@ -1,0 +1,130 @@
+.pokemon-card {
+  position: relative;
+  width: 220px;
+  min-height: 280px;
+  padding: 1.25rem;
+  background-color: #ffffff;
+  border: 1px solid #e7edf0;
+  border-radius: 16px;
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.06);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.pokemon-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.1);
+}
+
+.pokemon-card__id {
+  align-self: flex-end;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #7ec9ee;
+}
+
+.pokemon-card__image-wrapper {
+  width: 96px;
+  height: 96px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.5rem;
+}
+
+.pokemon-card__image {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.pokemon-card__image--placeholder {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  background-color: #f0f6fa;
+  color: #b7c4cc;
+  font-size: 2rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pokemon-card__name {
+  margin: 0.25rem 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #111111;
+  text-transform: capitalize;
+}
+
+.pokemon-card__subtitle {
+  margin: 0 0 0.5rem;
+  font-size: 0.85rem;
+  color: #5a6a72;
+}
+
+.pokemon-card__subtitle--missing {
+  font-style: italic;
+  color: #a16207;
+}
+
+.pokemon-card__mass {
+  margin: 0 0 0.5rem;
+  font-size: 0.85rem;
+  color: #34424a;
+}
+
+.pokemon-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.35rem;
+  list-style: none;
+  padding: 0;
+  margin: auto 0 0;
+}
+
+.pokemon-card__tag {
+  padding: 0.2rem 0.6rem;
+  font-size: 0.72rem;
+  color: #0369a1;
+  background-color: #e0f5fe;
+  border-radius: 999px;
+  text-transform: capitalize;
+}
+
+.pokemon-card--unavailable {
+  background-color: #fffbeb;
+  border-style: dashed;
+  border-color: #fcd34d;
+}
+
+.pokemon-card--unavailable .pokemon-card__image--placeholder {
+  background-color: #fef3c7;
+  color: #b45309;
+}
+
+.pokemon-card__unavailable {
+  margin: 0.25rem 0 0;
+  font-size: 0.8rem;
+  color: #92400e;
+}
+
+.pokemon-card__select {
+  position: absolute;
+  inset: 0;
+  padding: 0;
+  border: none;
+  border-radius: 16px;
+  background: transparent;
+  cursor: pointer;
+}
+
+.pokemon-card__select:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}

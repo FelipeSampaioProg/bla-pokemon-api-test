@@ -1,0 +1,34 @@
+.source-toggle {
+  display: inline-flex;
+  margin-top: 1rem;
+  padding: 0.25rem;
+  gap: 0.25rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background-color: #f8fbfd;
+}
+
+.source-toggle__option {
+  padding: 0.4rem 1rem;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.source-toggle__option:hover {
+  color: var(--text);
+}
+
+.source-toggle__option--active {
+  background-color: var(--accent);
+  color: #ffffff;
+}
+
+.source-toggle__option--active:hover {
+  background-color: var(--accent-hover);
+  color: #ffffff;
+}
