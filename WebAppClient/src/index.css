@@ -1,0 +1,31 @@
+:root {
+  --bg: #ffffff;
+  --text: #111111;
+  --text-muted: #5a6a72;
+  --border: #e7edf0;
+  --accent: #38bdf8;
+  --accent-hover: #0ea5e9;
+
+  font: 16px/145% system-ui, 'Segoe UI', Roboto, sans-serif;
+  color: var(--text);
+  background: var(--bg);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+#root {
+  min-height: 100vh;
+}
