@@ -1,0 +1,36 @@
+# Pokedex BFF + MySQL. `docker compose up --build`, then open http://localhost:8080.
+# The database starts with the demonstration data (Flyway migration V2__demo_data.sql).
+
+services:
+  db:
+    image: mysql:8.4
+    environment:
+      MYSQL_DATABASE: pokemon
+      MYSQL_USER: pokemon
+      MYSQL_PASSWORD: pokebola
+      MYSQL_ROOT_PASSWORD: pokebola-root
+    volumes:
+      - pokedex-db:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-upokemon", "-ppokebola"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+
+  app:
+    build: .
+    image: pokedex-bff
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DB_URL: jdbc:mysql://db:3306/pokemon?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      DB_USERNAME: pokemon
+      DB_PASSWORD: pokebola
+      # Any variable of the README's configuration table can be set here, for example:
+      # POKEMON_CACHE_WARMUP_ENABLED: "false"
+    ports:
+      - "8080:8080"
+
+volumes:
+  pokedex-db:

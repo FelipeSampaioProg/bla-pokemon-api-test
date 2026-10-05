@@ -1,0 +1,12 @@
+# Keep the build context small and free of local state.
+.git
+.idea
+.vscode
+target
+logs
+.env
+**/.env
+WebAppClient/node_modules
+WebAppClient/dist
+WebAppClient/coverage
+*.log
