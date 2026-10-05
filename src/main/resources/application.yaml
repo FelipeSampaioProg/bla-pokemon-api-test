@@ -1,0 +1,102 @@
+spring:
+  config:
+    import: optional:file:.env[.properties]
+
+  application:
+    name: bla-pokemon-technical-test
+  datasource:
+    url: ${DB_URL:jdbc:mysql://localhost:3306/pokemon?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:}
+      timeout: ${REDIS_TIMEOUT:2s}
+  cloud:
+    openfeign:
+      client:
+        config:
+          default:
+            connect-timeout: ${POKEAPI_CONNECT_TIMEOUT_MS:3000}
+            read-timeout: ${POKEAPI_READ_TIMEOUT_MS:5000}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+    open-in-view: false
+
+logging:
+  file:
+    name: logs/bla-pokemon-technical-test.log
+
+  level:
+    root: INFO
+    org.springframework.web: INFO
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+
+  structured:
+    format:
+      console: ecs
+      file: ecs
+
+management:
+  endpoints:
+    web:
+      exposure:
+        # Only what operations needs; env, configprops, heapdump and loggers would leak configuration and memory.
+        include: ${MANAGEMENT_ENDPOINTS_INCLUDE:health,info}
+  endpoint:
+    health:
+      show-components: always
+      show-details: always
+      probes:
+        enabled: true
+  health:
+    redis:
+      enabled: ${MANAGEMENT_HEALTH_REDIS_ENABLED:false}
+
+springdoc:
+  show-actuator: true
+
+pokemon:
+  cache:
+    provider: ${POKEMON_CACHE_PROVIDER:caffeine}
+    page:
+      ttl: ${POKEMON_CACHE_PAGE_TTL:5m}
+      maximum-size: ${POKEMON_CACHE_PAGE_MAXIMUM_SIZE:128}
+    resource:
+      ttl: ${POKEMON_CACHE_RESOURCE_TTL:15m}
+      maximum-size: ${POKEMON_CACHE_RESOURCE_MAXIMUM_SIZE:4096}
+    warmup:
+      enabled: ${POKEMON_CACHE_WARMUP_ENABLED:true}
+      pages: ${POKEMON_CACHE_WARMUP_PAGES:5}
+      page-size: ${POKEMON_CACHE_WARMUP_PAGE_SIZE:20}
+
+  fetch:
+    parallelism: ${POKEMON_FETCH_PARALLELISM:8}
+  sync:
+    threads: ${POKEMON_SYNC_THREADS:2}
+    queue-capacity: ${POKEMON_SYNC_QUEUE_CAPACITY:1000}
+
+  http:
+    # Cache-Control of complete PokeAPI responses (list and detail alike). 0 = no-cache: clients revalidate with the
+    # ETag (cheap 304), so a card and its detail never diverge in the browser. > 0 = max-age, public.
+    # Partial responses are always sent with no-store.
+    max-age: ${POKEMON_HTTP_MAX_AGE:0s}
+
+pokeapi:
+  url: ${POKEAPI_URL:https://pokeapi.co/api/v2}
+  retry:
+    # Attempts per PokeAPI call, the first included (1 disables retries). Page entries are never retried.
+    max-attempts: ${POKEAPI_RETRY_MAX_ATTEMPTS:3}
+    period: ${POKEAPI_RETRY_PERIOD:100ms}
+    max-period: ${POKEAPI_RETRY_MAX_PERIOD:1s}
+    # A retry is only made if it fits in this time, counted from the first attempt.
+    budget: ${POKEAPI_RETRY_BUDGET:6s}
+  rate-limit:
+    # Pause applied to every PokeAPI call after a 429 that carries no Retry-After.
+    default-pause: ${POKEAPI_RATE_LIMIT_DEFAULT_PAUSE:10s}
